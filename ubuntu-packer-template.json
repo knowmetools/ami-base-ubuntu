@@ -1,0 +1,39 @@
+{
+  "variables": {
+    "aws_region": "us-east-1"
+  },
+
+  "builders": [
+    {
+      "type": "amazon-ebs",
+      "ami_name": "base-ubuntu-{{ isotime | clean_ami_name }}",
+      "instance_type": "t2.micro",
+      "region": "{{ user `aws_region` }}",
+      "source_ami_filter": {
+        "filters": {
+          "virtualization-type": "hvm",
+          "name": "ubuntu/images/*ubuntu-bionic-18.04-amd64-server-*",
+          "root-device-type": "ebs"
+        },
+        "most_recent": true,
+        "owners": ["099720109477"]
+      },
+      "ssh_username": "ubuntu"
+    }
+  ],
+
+  "provisioners": [
+    {
+      "type": "shell",
+      "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "inline": [
+        "sleep 30 && apt-get update"
+      ]
+    },
+    {
+      "type": "shell",
+      "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "script": "./scripts/consul.sh"
+    }
+  ]
+}
