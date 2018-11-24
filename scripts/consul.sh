@@ -67,3 +67,37 @@ systemctl daemon-reload
 systemctl enable consul.service
 echo "Wrote and enabled /etc/systemd/system/consul.service"
 echo
+
+echo "Configuring Consul DNS services..."
+cat > /etc/systemd/resolved.conf <<EOF
+#  This file is part of systemd.
+#
+#  systemd is free software; you can redistribute it and/or modify it
+#  under the terms of the GNU Lesser General Public License as published by
+#  the Free Software Foundation; either version 2.1 of the License, or
+#  (at your option) any later version.
+#
+# Entries in this file show the compile time defaults.
+# You can change settings by editing this file.
+# Defaults can be restored by simply deleting this file.
+#
+# See resolved.conf(5) for details
+
+[Resolve]
+DNS=127.0.0.1
+#FallbackDNS=
+Domains=~consul
+#LLMNR=no
+#MulticastDNS=no
+#DNSSEC=no
+#Cache=yes
+#DNSStubListener=yes
+EOF
+# As per Consul documentation:
+# https://www.consul.io/docs/guides/forwarding.html#systemd-resolved-setup
+iptables -t nat -A OUTPUT -d localhost -p udp -m udp --dport 53 -j REDIRECT --to-ports 8600
+iptables -t nat -A OUTPUT -d localhost -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 8600
+systemctl restart systemd-resolved.service
+
+echo "Consul is now providing DNS for the 'consul.' domain."
+echo
