@@ -8,7 +8,7 @@ The following services are set up on the base image.
 
 ### Consul
 
-**Note: Before use, the Consul agent requires configuration before it can be run.**
+**Note: Before use, the Consul agent requires configuration.**
 
 The agent from Hashicorp's [Consul][consul] service is configured to run on any instance launced from this AMI.
 
@@ -21,6 +21,57 @@ If you add this configuration after the instance boots or through a user data sc
 ```bash
 sudo systemctl restart consul.service
 ```
+
+## Deployment with CodeBuild
+
+This repository is configured to be built with AWS CodeBuild. The CodeBuild project must be manually configured to be triggered when changes are pushed to GitHub. In order to save the AMI that is produced, the CodeBuild instance must have the following permissions:
+
+```json
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Effect": "Allow",
+            "Action": [
+                "ec2:AttachVolume",
+                "ec2:AuthorizeSecurityGroupIngress",
+                "ec2:CopyImage",
+                "ec2:CreateImage",
+                "ec2:CreateKeypair",
+                "ec2:CreateSecurityGroup",
+                "ec2:CreateSnapshot",
+                "ec2:CreateTags",
+                "ec2:CreateVolume",
+                "ec2:DeleteKeyPair",
+                "ec2:DeleteSecurityGroup",
+                "ec2:DeleteSnapshot",
+                "ec2:DeleteVolume",
+                "ec2:DeregisterImage",
+                "ec2:DescribeImageAttribute",
+                "ec2:DescribeImages",
+                "ec2:DescribeInstances",
+                "ec2:DescribeRegions",
+                "ec2:DescribeSecurityGroups",
+                "ec2:DescribeSnapshots",
+                "ec2:DescribeSubnets",
+                "ec2:DescribeTags",
+                "ec2:DescribeVolumes",
+                "ec2:DetachVolume",
+                "ec2:GetPasswordData",
+                "ec2:ModifyImageAttribute",
+                "ec2:ModifyInstanceAttribute",
+                "ec2:ModifySnapshotAttribute",
+                "ec2:RegisterImage",
+                "ec2:RunInstances",
+                "ec2:StopInstances",
+                "ec2:TerminateInstances"
+            ],
+            "Resource": "*"
+        }
+    ]
+}
+```
+
 
 ## Building the AMI
 
