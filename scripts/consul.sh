@@ -5,7 +5,7 @@ set -o pipefail
 
 apt-get install unzip
 
-CONSUL_VERSION=1.4.0
+CONSUL_VERSION=1.4.1
 CONSUL_LINK=https://releases.hashicorp.com/consul/${CONSUL_VERSION}/consul_${CONSUL_VERSION}_linux_amd64.zip
 
 echo "Downloading Consul..."

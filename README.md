@@ -22,6 +22,10 @@ If you add this configuration after the instance boots or through a user data sc
 sudo systemctl restart consul.service
 ```
 
+### Vault
+
+Hashicorp's [Vault][vault] is installed. No configuration is provided.
+
 ## Deployment with CodeBuild
 
 This repository is configured to be built with AWS CodeBuild. The CodeBuild project must be manually configured to be triggered when changes are pushed to GitHub. In order to save the AMI that is produced, the CodeBuild instance must have the following permissions:
@@ -93,3 +97,4 @@ This projects is licensed under the [MIT License](LICENSE).
 
 [consul]: https://www.consul.io/
 [packer]: https://www.packer.io/
+[vault]: https://www.vaultproject.io/

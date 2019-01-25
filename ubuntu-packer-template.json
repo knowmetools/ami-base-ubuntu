@@ -34,6 +34,11 @@
       "type": "shell",
       "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "script": "./scripts/consul.sh"
+    },
+    {
+      "type": "shell",
+      "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "script": "./scripts/vault.sh"
     }
   ]
 }
