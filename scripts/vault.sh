@@ -19,3 +19,17 @@ chmod +x /tmp/vault
 mv /tmp/vault /usr/local/bin
 echo "Extracted Vault binary to '/usr/local/bin/vault'."
 echo
+
+echo "Creating vault user..."
+useradd --shell /bin/false --system --user-group vault
+echo "Created user 'vault'."
+echo
+
+echo "Creating directory structure..."
+mkdir -p /opt/vault/config
+chown -R vault:vault /opt/vault
+cat <<EOF
+Vault Directories:
+    Config: /opt/vault/config
+
+EOF

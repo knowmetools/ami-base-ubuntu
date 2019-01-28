@@ -24,7 +24,7 @@ sudo systemctl restart consul.service
 
 ### Vault
 
-Hashicorp's [Vault][vault] is installed. No configuration is provided.
+Hashicorp's [Vault][vault] is installed. No default configuration is provided. However, the scaffolding required for running Vault's agent or server process is provided. A `vault` user and group are provided and a directory for storing configuration options for Vault exists at `/opt/vault/config`.
 
 ## Deployment with CodeBuild
 
