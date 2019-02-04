@@ -93,10 +93,14 @@ Domains=~consul
 #Cache=yes
 #DNSStubListener=yes
 EOF
+
 # As per Consul documentation:
 # https://www.consul.io/docs/guides/forwarding.html#systemd-resolved-setup
 iptables -t nat -A OUTPUT -d localhost -p udp -m udp --dport 53 -j REDIRECT --to-ports 8600
 iptables -t nat -A OUTPUT -d localhost -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 8600
+# Persist those rules across reboots.
+iptables-save | tee /etc/iptables.conf
+
 systemctl restart systemd-resolved.service
 
 echo "Consul is now providing DNS for the 'consul.' domain."
