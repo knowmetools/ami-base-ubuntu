@@ -43,12 +43,13 @@
     {
       "type": "file",
       "source": "files/wait-for-it.sh",
-      "destination": "/usr/local/bin/wait-for-it"
+      "destination": "/tmp/wait-for-it.sh"
     },
     {
       "type": "shell",
       "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "inline": [
+        "mv /tmp/wait-for-it.sh /usr/local/bin/wait-for-it",
         "chmod +x /usr/local/bin/wait-for-it"
       ]
     }
