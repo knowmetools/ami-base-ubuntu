@@ -106,7 +106,8 @@ cat > /etc/systemd/system/iptables-restore.service << EOF
 Description=Restore iptables rules
 
 [Service]
-ExecStart=/sbin/iptables-restore < /etc/iptables.conf
+ExecStart=/sbin/iptables-restore
+StandardInput=file:/etc/iptables.conf
 
 [Install]
 WantedBy=multi-user.target
