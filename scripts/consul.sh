@@ -98,8 +98,20 @@ EOF
 # https://www.consul.io/docs/guides/forwarding.html#systemd-resolved-setup
 iptables -t nat -A OUTPUT -d localhost -p udp -m udp --dport 53 -j REDIRECT --to-ports 8600
 iptables -t nat -A OUTPUT -d localhost -p tcp -m tcp --dport 53 -j REDIRECT --to-ports 8600
+
 # Persist those rules across reboots.
 iptables-save | tee /etc/iptables.conf
+cat > /etc/systemd/system/iptables-restore.service << EOF
+[Unit]
+Description=Restore iptables rules
+
+[Service]
+ExecStart=iptables-restore < /etc/iptables.conf
+
+[Install]
+WantedBy=multi-user.target
+EOF
+systemctl enable iptables-restore.service
 
 systemctl restart systemd-resolved.service
 
