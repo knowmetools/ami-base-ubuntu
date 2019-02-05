@@ -39,6 +39,18 @@
       "type": "shell",
       "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
       "script": "./scripts/vault.sh"
+    },
+    {
+      "type": "file",
+      "source": "files/wait-for-it.sh",
+      "destination": "/usr/local/bin/wait-for-it"
+    },
+    {
+      "type": "shell",
+      "execute_command": "sudo -S sh -c '{{ .Vars }} {{ .Path }}'",
+      "inline": [
+        "chmod +x /usr/local/bin/wait-for-it"
+      ]
     }
   ]
 }
